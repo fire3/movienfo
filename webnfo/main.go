@@ -1,18 +1,21 @@
 package main
-
 import (
+    "github.com/gin-gonic/gin"
+    "net/http"
     "fmt"
     "encoding/json"
     "net/url"
     "strings"
-    "log"
-    //"strconv"
     "database/sql"
     _ "github.com/lib/pq"
     "encoding/xml"
+    //"log"
+    //"strconv"
     //"time"
-    "os"
+    //"os"
+    //"time"
 )
+
 
 func checkErr(err error) {
     if err != nil {
@@ -20,25 +23,23 @@ func checkErr(err error) {
     }
 }
 
-func main() {
+func getmoviexml(name string) ([]byte, error) {
 
-    if len(os.Args) != 2 {
-        fmt.Printf("Usage: %s Name\n",os.Args[0])
-        os.Exit(0)
-    }
     db, err := sql.Open("postgres", "user=fire3 password=theone dbname=douban sslmode=disable")
     checkErr(err)
 
     var id int
     var title string
     var rawinfo []byte
-    err = db.QueryRow("SELECT * FROM movie WHERE title=$1",os.Args[1]).Scan(&id,&title,&rawinfo)
+    err = db.QueryRow("SELECT * FROM movie WHERE title=$1",name).Scan(&id,&title,&rawinfo)
 
     switch {
     case err == sql.ErrNoRows:
-        log.Fatal("No movie with title :" + os.Args[1])
+        db.Close()
+        return []byte{},err
     case err != nil:
-        log.Fatal(err)
+        db.Close()
+        return []byte{},err
     default:
         var m MovieInfo
         json.Unmarshal(rawinfo, &m)
@@ -69,10 +70,20 @@ func main() {
             x.Actors = append(x.Actors, r)
         }
 
-        output,_ := xml.MarshalIndent(x,"  ", "    ")
-        os.Stdout.Write(output)
-        fmt.Println("")
+        output,e := xml.MarshalIndent(x,"  ", "    ")
+        db.Close()
+        return output, e
     }
+}
 
-    db.Close()
+func main() {
+
+    router := gin.Default()
+    router.StaticFile("/","./index")
+    router.POST("/movie", func(c *gin.Context) {
+        movie := c.PostForm("movie")
+        xml,_ := getmoviexml(movie)
+        c.Data(http.StatusOK,"application/xml; charset=utf-8",xml)
+    })
+    router.Run(":8081")
 }
