@@ -233,8 +233,10 @@ func main() {
 
 		}
         time.Sleep(1*time.Second)
-        fmt.Println("%d : No id/type returned.",i)
-        i++
+        if id == "" && typ == "" {
+            fmt.Println(i,": No id/type returned.",i)
+            i++
+        }
 	}
 
     db.Close()
