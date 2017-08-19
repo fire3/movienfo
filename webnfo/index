@@ -3,9 +3,9 @@
     <title></title>
     </head>
     <body>
-        <form action="/movie" method="post">
-            电影名称:<input type="text" name="movie">
-            <input type="submit" value="movie">
+        <form action="/search" method="GET">
+            电影名称:<input type="text" name="q">
+            <input type="submit" value="搜索">
         </form>
     </body>
 </html>
