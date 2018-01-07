@@ -1,11 +1,22 @@
 <html>
+<style>
+form {
+width:500px;
+margin:50px auto;
+}
+</style>
     <head>
     <title></title>
     </head>
     <body>
-        <form action="/search" method="GET">
-            电影名称:<input type="text" name="q">
-            <input type="submit" value="搜索">
+        <form action="/movie" method="GET">
+            <input type="text" name="q">
+            <input type="submit" value="搜索电影">
         </form>
+        <form action="/tv" method="GET">
+            <input type="text" name="q">
+            <input type="submit" value="搜索电视剧">
+        </form>
+
     </body>
 </html>

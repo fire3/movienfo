@@ -3,6 +3,53 @@ package main
 import (
     "encoding/xml"
 )
+type TvXml struct {
+    XMLName xml.Name `xml:"tvshow"`
+    Title          string `xml:"title"`
+    Showtitle      string `xml:"showtitle"`
+    Rating         string `xml:"rating"`
+    Votes          string `xml:"votes"`
+    Epbookmark     string `xml:"epbookmark"`
+    Year           string `xml:"year"`
+    Top250         string `xml:"top250"`
+    Season         string `xml:"season"`
+    Episode        string `xml:"episode"`
+    Uniqueid       string `xml:"uniqueid"`
+    Displayseason  string `xml:"displayseason"`
+    Displayepisode string `xml:"displayepisode"`
+    Outline        string `xml:"outline"`
+    Plot           string `xml:"plot"`
+    Tagline        string `xml:"tagline"`
+    Runtime        string `xml:"runtime"`
+    Mpaa           string `xml:"mpaa"`
+    Playcount      string `xml:"playcount"`
+    Lastplayed     string `xml:"lastplayed"`
+    Episodeguide   struct {
+        URL struct {
+            Cache string `xml:"_cache"`
+            Text  string `xml:"__text"`
+        } `xml:"url"`
+    } `xml:"episodeguide"`
+    ID        string   `xml:"id"`
+    Genre     []string `xml:"genre"`
+    Set       string   `xml:"set"`
+    Premiered string   `xml:"premiered"`
+    Status    string   `xml:"status"`
+    Code      string   `xml:"code"`
+    Aired     string   `xml:"aired"`
+    Studio    string   `xml:"studio"`
+    Trailer   string   `xml:"trailer"`
+    Actors     []struct {
+        Name  string `xml:"name"`
+        Role  string `xml:"role"`
+        Thumb string `xml:"thumb"`
+    } `xml:"actor"`
+    Resume struct {
+        Position string `xml:"position"`
+        Total    string `xml:"total"`
+    } `xml:"resume"`
+    Dateadded string `xml:"dateadded"`
+}
 
 type MovieXml struct {
     XMLName xml.Name `xml:"movie"`
@@ -41,8 +88,13 @@ type MovieXml struct {
 type Actor   struct {
 			Name string `xml:"name"`
 			Role string `xml:"role"`
-		} 
+		}
 
+type TvActor   struct {
+			Name string `xml:"name"`
+			Role string `xml:"role"`
+            Thumb string `xml:"thumb"`
+		}
 type MovieInfo struct {
 	Rating struct {
 		Count     int     `json:"count"`

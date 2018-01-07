@@ -188,7 +188,7 @@ func main() {
 
     i,_ := strconv.Atoi(os.Args[1])
 
-    for i<10000 {
+    for i<20000 {
         id, typ:= getidtype(i)
         //fmt.Println(id + " " + typ)
 		if typ == "movie" {
